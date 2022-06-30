@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:layouts_and_ui/db_driver.dart';
-import 'package:layouts_and_ui/user.dart';
+import 'package:simple_screens_stack/domain/repository/user_data_repository.dart';
 import 'second_route.dart';
 
 class FirstRoute extends StatefulWidget {
@@ -17,10 +16,7 @@ class _FirstRouteState extends State<FirstRoute> {
   final _surnameController = TextEditingController();
   final _emailController = TextEditingController();
   bool _isSaveEnable = false;
-  final List<String> _genders = [
-    "male",
-    "female"
-  ];
+  final List<String> _genders = ["male", "female"];
 
   @override
   Widget build(BuildContext context) {
@@ -198,7 +194,7 @@ class _FirstRouteState extends State<FirstRoute> {
     setState(() {
       _isSaveEnable = isValid;
     });
-    debugPrint("$_isSaveEnable");
+    // debugPrint("$_isSaveEnable");
   }
 
   bool _validateEmail(String email) {
@@ -209,6 +205,13 @@ class _FirstRouteState extends State<FirstRoute> {
   }
 
   _saveUserToDB() {
+    UserDataRepository().createUser(
+        name: _nameController.text,
+        surname: _surnameController.text,
+        email: _emailController.text,
+        gender: _genders.indexOf(_gender),
+        birthdate: _selectedDate);
+    /*
     DBDriver().insertUser(User(
         id: 0,
         name: _nameController.text,
@@ -216,6 +219,7 @@ class _FirstRouteState extends State<FirstRoute> {
         email: _emailController.text,
         gender: _genders.indexOf(_gender),
         birthdate: _selectedDate));
+     */
 
     _nameController.clear();
     _surnameController.clear();
@@ -242,7 +246,8 @@ class _FirstRouteState extends State<FirstRoute> {
 
   _infoPopup(String? info) {
     final snackBar = SnackBar(
-      content: Text(info!,
+      content: Text(
+        info!,
         style: TextStyle(
           fontSize: 28.0,
           color: Colors.blue[800],

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:layouts_and_ui/db_driver.dart';
-import 'package:layouts_and_ui/user.dart';
+import 'package:simple_screens_stack/domain/model/user.dart';
+import 'package:simple_screens_stack/domain/repository/user_data_repository.dart';
 
 class SecondRoute extends StatelessWidget {
   const SecondRoute({super.key});
 
   Future<List<User>> _fetchUsers() async {
-    return DBDriver().users();
+    return UserDataRepository().getUsers();
+    // return DBDriver().oldUsers();
   }
 
   @override
